@@ -1,0 +1,158 @@
+{% extends 'flatpages/default.html' %}
+
+{% block menu %}
+{% endblock menu %}
+
+{% block title %}
+<h1> Портал Новостей </h1>
+{% endblock title %}
+
+{% block content %}
+    {% csrf_token %}
+    <div class="row g-3 align-items-center">
+        <div class="col-1">
+            <label for="username" class="col-form-label">Имя</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="username" class="form-control" name="username" value='{{request.user}}' readonly>
+        </div>
+        <div class="col-auto">
+    <span id="username" class="form-text">
+      Имя пользователя вошедшего в систему
+    </span>
+        </div>
+    </div>
+
+    <div class="row g-3 align-items-center">
+        <div class="col-1">
+            <label for="email" class="col-form-label">email</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="email" class="form-control" name="email" value='{{request.user.email}}' readonly>
+        </div>
+        <div class="col-auto">
+    <span id="email" class="form-text">
+      Почта пользователя вошедшего в систему
+    </span>
+        </div>
+    </div>
+
+    <div class="row g-3 align-items-center">
+        <div class="col-1">
+            <label for="type_user" class="col-form-label">Тип</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="type_user" class="form-control" name="type_user" value='{{type_user}}' readonly>
+        </div>
+        <div class="col-auto">
+    <span id="type_user" class="form-text">
+      Тип пользователя вошедшего в систему
+    </span>
+        </div>
+    </div>
+
+
+    <div class="row g-3 align-items-center">
+        <div class="col-1">
+            <label for="last_login" class="col-form-label">Дата</label>
+        </div>
+        <div class="col-auto">
+            <input type="datetime" id="last_login" class="form-control" name="last_login" value="{{request.user.last_login|date:'d.m.Y h:i a'}}" readonly>
+        </div>
+        <div class="col-auto">
+    <span id="last_login" class="form-text">
+      Последняя дата входа в систему
+    </span>
+        </div>
+    </div>
+
+    <div class="row g-3 align-items-center">
+        <div class="col-1">
+            <label for="user_count" class="col-form-label">Users</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="user_count" class="form-control" name="user_count" value='{{user_count}}' readonly>
+        </div>
+        <div class="col-auto">
+    <span id="user_count" class="form-text">
+      Количество авторизованых пользователей в системе
+    </span>
+        </div>
+    </div>
+
+    <div class="row g-3 align-items-center">
+        <div class="col-1">
+            <label for="post_count" class="col-form-label">Новости</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="post_count" class="form-control" name="post_count" value='{{post_count}}' readonly>
+        </div>
+        <div class="col-auto">
+    <span id="post_count" class="form-text">
+      Количество Новостей в системе
+    </span>
+        </div>
+    </div>
+
+
+    <div class="row g-3 align-items-center">
+        <div class="col-1">
+            <label for="is_authors" class="col-form-label">Автор</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="is_authors" class="form-control" name="is_authors"
+                   value="{% if not is_not_authors %} ДА {%else%} Нет {%endif%}"  readonly>
+        </div>
+        <div class="col-auto">
+    <span id="is_authors" class="form-text">
+      Автор на портале Новостей
+    </span>
+        </div>
+    </div>
+
+    <div class="row g-3 align-items-center">
+        <div class="col-1">
+            <label for="is_premium" class="col-form-label">Premium</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="is_premium" class="form-control" name="is_premium"
+                   value="{% if not is_not_premium %} ДА {%else%} Нет {%endif%}"  readonly>
+        </div>
+        <div class="col-auto">
+    <span id="is_premium" class="form-text">
+      Полные права у пользователя
+    </span>
+        </div>
+    </div>
+
+<br>
+ <div class="row g-3 align-items-center">
+    <div class="col-auto">
+        {% if is_not_authors %}
+            <button> <a href="/upgrade/authors/"> Хочу стать автором</a> </button>
+        {% endif %}
+    </div>
+    <div class="col-auto">
+    {% if is_not_premium %}
+    <button> <a href="/upgrade/premium/"> Хочу Premium!</a> </button>
+    {% endif %}
+   </div>
+</div>
+
+<br>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Список Новостей</button>
+</form>
+    <br>
+    <p>
+        <button onclick="document.location='/admin/'" class="btn btn-success">Login Admin</button>
+    </p>
+{% endblock content %}
+
+{% block content1 %}
+{% endblock content1 %}
+
+<!--
+
+-->

@@ -1,0 +1,80 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block menu %}
+{% include 'post/menu_post.html' %}
+{% endblock menu %}
+
+{% block title %}
+<h1> Новость №{{post.pk}} </h1>
+{% endblock title %}
+
+{% block content %}
+    <div class="input-group">
+      <span class="col-1">Дата</span>
+      <label class="col-auto" readonly >{{ post.created|date:'d.m.y h:i a' }}</label>
+    </div>
+<br>
+    <div class="input-group">
+      <span class="col-1">Автор</span>
+      <label class="col-auto" readonly >{{ post.author.user.username }}</label>
+    </div>
+<br>
+    <div class="input-group">
+      <span class="col-1">Тип</span>
+      <label class="col-auto" readonly >{{ post.post_type_str }}</label>
+    </div>
+<br>
+    <div class="input-group">
+      <span class="col-1">Категории</span>
+      <label class="col-auto" readonly >{{ post.cats_str }}</label>
+    </div>
+<br>
+    <div class="input-group">
+      <span class="col-1">Заголовок</span>
+      <label class="col-auto" readonly >{{ post.title|censor }}</label>
+    </div>
+<br>
+    <div class="input-group">
+      <span class="col-1">Текст</span>
+      <textarea class="form-control" readonly >{{ post.text|censor }}</textarea>
+    </div>
+<br>
+    <div class="input-group">
+      <span class="col-1">Рейтинг</span>
+      <label class="col-auto" readonly >{{ post.rating }}</label>
+    </div>
+{% endblock content %}
+
+
+{% block content1 %}
+<hr>
+{% if comments %}
+<h3> Коментарии к новости </h3>
+<br>
+    <table style="width: 100%">
+        <tr>
+            <th> Дата</th>
+            <th> Автор</th>
+            <th> Текст</th>
+            <th> Рейтинг</th>
+        </tr>
+        {% for comment in comments %}
+        <tr>
+            <td>{{ comment.created|date:'d.m.y h:i a' }}</td>
+            <td>{{ comment.user.username }}</td>
+            <td>{{ comment.text|truncatechars:25|censor }}</td>
+            <td>{{ comment.rating }}</td>
+        </tr>
+    {% endfor%}
+    </table>
+
+{%else%}
+<h2>Коментариев нет</h2>
+{%endif%}
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">OK</button>
+</form>
+
+{% endblock content1 %}

@@ -1,0 +1,25 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block menu %}
+{% include 'post/menu_post.html' %}
+{% endblock menu %}
+
+{% block title %} Добавление Новости {% endblock title %}
+
+{% block content %}
+<h3>Данные о новости</h3>
+<!--
+<h3> {{ value1|default_if_none:"ничего" }} </h3>
+ -->
+
+<form method="POST">
+    {% csrf_token %}
+    <table>
+    {{ form }}
+    </table>
+    <br>
+    <button type="submit" class="btn btn-primary">Сохранить Новость</button>
+</form>
+
+{% endblock content %}

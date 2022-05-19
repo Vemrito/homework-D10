@@ -1,0 +1,51 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block menu %}
+{% include 'post/menu_search.html' %}
+{% endblock menu %}
+
+{% block title %}
+{{ 'Новости'|multiply:18 }}
+{% endblock title %}
+
+
+{% block content %}
+<h1>{{ filter.qs|length }} из {{ post_count }} Новостей на {{ time_now|date:'d.m.Y' }}</h1>
+<h3>   <br>  </h3>
+
+{%if posts%}
+    <form method="GET">
+        {{ filter.form }}
+        <input type="submit" value="Найти">
+    </form>
+
+    <table style="width: 100%">
+            <tr>
+                <th><a href="?order_by=author">Автор</a></th>
+                <th>Заголовок</th>
+                <th><a href="?order_by=created">Дата</a></th>
+                <th>Текст</th>
+                <th>Тип</th>
+                <th>Категории</th>
+                <th>Рейтинг</th>
+                <th><a href="?order_by=id">Номер</a></th>
+            </tr>
+            {% for post in filter.qs %}
+                <tr>
+                    <td>{{ post.author.user.username }}</td>
+                    <td>{{ post.title|truncatechars:25|censor}}</td>
+                    <td>{{ post.created|date:'d.m.y' }}</td>
+                    <td>{{ post.text|truncatechars:25|censor }}</td>
+                    <td>{{ post.post_type_str }}</td>
+                    <td>{{ post.cats_str|truncatechars:50 }}</td>
+                    <td>{{ post.rating }}</td>
+                    <td>{{ post.pk }}</td>
+                </tr>
+            {% endfor%}
+        </table>
+
+{%else%}
+    <h2>Новостей нет</h2>
+{%endif%}
+{% endblock content %}
